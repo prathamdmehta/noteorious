@@ -1,0 +1,27 @@
+<link rel="shortcut icon" type="x-icon" href="https://logodix.com/logo/892162.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<a href="/dashboard" style="text-decoration: none; color: blue;">&larr; Back</a>
+
+<h1><%= data.title %></h1>
+<article class="article">
+  <%- data.body %> <!-- Render HTML content using <%- %> -->
+</article>
+<script>
+  gsap.from("h1", {
+      opacity: 0,
+      y: -50,
+      duration: 1,
+      ease: "power2.out",
+    });
+
+    // GSAP animation for the article content
+    gsap.from(".article", {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: "power2.out",
+      delay: 0.5,
+    });
+</script>
+<!-- <%= %> in EJS is used to output the value as plain text.
+<%- %> in EJS is used to output the value as HTML, ensuring that any HTML tags within data.body are rendered as intended. -->

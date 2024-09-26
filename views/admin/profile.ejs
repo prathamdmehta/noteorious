@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <title>Profile Card</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap");
+
+      * {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        height: 110vh;
+        overflow: auto;
+      }
+
+      .wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 70%;
+        height: 80%;
+        display: flex;
+        box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+        margin: 4rem 0 0 0;
+      }
+
+      .wrapper .left {
+        width: 35%;
+        background: linear-gradient(to right, #01a9ac, #01dbdf);
+        padding: 30px 25px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        text-align: center;
+        color: #fff;
+      }
+
+      .wrapper .left img {
+        border-radius: 5px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        margin-top: 3rem;
+      }
+
+      .wrapper .left h4 {
+        margin-bottom: 10px;
+        color: purple;
+      }
+
+      /* Styling for job title and pencil icon on the same line */
+      .wrapper .left strong {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+      }
+
+      .wrapper .left #jobTitle {
+        display: inline-block;
+        margin-right: 8px;
+        font-size: 16px;
+        color: black;
+        border: none;
+        background: transparent;
+        outline: none;
+        padding: 5px;
+      }
+
+      .wrapper .left i.fa-pencil {
+        cursor: pointer;
+        font-size: 14px;
+        color: #fff;
+      }
+
+      /* Information section */
+      .wrapper .left .info {
+        margin-top: 20px;
+      }
+
+      .wrapper .left .info h3 {
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #e0e0e0;
+        color: #353c4e;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+      }
+
+      .wrapper .left .info_data {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Ensures info is centered */
+      }
+
+      .wrapper .left .info_data .data {
+        margin-bottom: 15px;
+      }
+
+      .wrapper .left .info_data .data h2 {
+        font-size: 15px;
+      }
+
+      .wrapper .left h2 {
+        margin-bottom: 10px;
+        color: #800000;
+      }
+
+      .wrapper .left .info_data .data p {
+        color: #4b0082;
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      .wrapper .right {
+        width: 65%;
+        background: #fff;
+        padding: 30px 25px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+
+      .wrapper .right .projects h3 {
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #e0e0e0;
+        color: #353c4e;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+      }
+
+      .wrapper .right .projects_data {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .wrapper .right .projects_data .data h4 {
+        color: #353c4e;
+        margin-bottom: 5px;
+      }
+
+      .wrapper .right .projects_data .data p {
+        font-size: 13px;
+        margin-bottom: 10px;
+        color: #919aa3;
+      }
+
+      .editable {
+        outline: none;
+        border: none;
+        background-color: transparent;
+        color: #000;
+        cursor: pointer;
+      }
+
+      strong {
+        display: flex;
+        align-items: center;
+      }
+
+      .editable {
+        display: inline-block;
+        margin-right: 8px; /* Adds some space between the title and the pencil */
+      }
+
+      .fa-pencil {
+        cursor: pointer;
+      }
+
+      .projects_data {
+        display: flex;
+        flex-direction: column; /* Aligns children in a column */
+        margin-bottom: 20px; /* Adds spacing below the posts */
+      }
+
+      .article-ul {
+        list-style-type: none; /* Removes default list styling */
+        padding: 0; /* Removes default padding */
+      }
+
+      .article-ul li {
+        margin-bottom: 10px; /* Spacing between posts */
+      }
+
+      .pagination {
+        display: flex; /* Use flexbox to arrange pagination links */
+        justify-content: center; /* Centers pagination links horizontally */
+        margin-top: 10px; /* Adds space above pagination links */
+      }
+
+      .pagination a {
+        margin: 0 10px; /* Adds spacing between pagination links */
+        text-decoration: none; /* Removes underline from links */
+        color: #007bff; /* Example link color */
+      }
+
+      .pagination a:hover {
+        text-decoration: underline; /* Adds underline on hover */
+      }
+
+      /* Media Query for Mobile Devices */
+      @media (max-width: 768px) {
+        body {
+          height: 140vh;
+        }
+        .wrapper {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 80%;
+          display: flex;
+          box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+          margin: 8rem 0 0 0;
+          flex-direction: column; /* Default to column for responsive design */
+        }
+
+        .wrapper .left {
+          width: 100%; /* Full width for left section */
+          background: linear-gradient(to right, #01a9ac, #01dbdf);
+          border-radius: 5px; /* Use consistent border radius */
+          color: #fff;
+          flex-grow: 1; /* Allow it to grow */
+          padding: 1rem 0.1rem;
+        }
+
+        .wrapper .right {
+          width: 100%; /* Full width for right section */
+          background: #fff;
+          border-radius: 5px; /* Use consistent border radius */
+          flex-grow: 2; /* Allow it to grow more than left section */
+          padding: 0.1rem;
+        }
+
+        /* Adjust the h3 titles and spacing for mobile */
+        .wrapper .left h3,
+        .wrapper .right h3 {
+          font-size: 1.5rem; /* Increase font size for better readability */
+          margin-bottom: 10px; /* Reduce margin */
+          text-align: center;
+        }
+
+        .article-ul li {
+          font-size: 14px; /* Slightly increase the font size for list items */
+          margin: 0 1rem;
+        }
+
+        /* Make pagination buttons larger for easier tapping */
+        .pagination a {
+          padding: 10px 15px; /* Increase padding for better touch targets */
+          font-size: 14px; /* Slightly increase font size */
+        }
+
+        .wrapper .left .info_data .data h2 {
+          font-size: 16px; /* Adjust font size */
+        }
+
+        .wrapper .left .info_data .data p {
+          font-size: 14px; /* Adjust font size */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="left">
+        <!-- Allow user to choose profile image -->
+        <input
+          type="file"
+          id="profilePicInput"
+          style="display: none"
+          accept="image/*"
+          onchange="loadProfilePic(event)"
+        />
+        <img
+          id="profilePic"
+          src="https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG.png"
+          alt="user"
+          width="150"
+          onclick="document.getElementById('profilePicInput').click();"
+        />
+
+        <!-- Display dynamic username -->
+        <h4><%= username %></h4>
+
+        <!-- Editable job title -->
+        <strong
+          ><p id="jobTitle" contenteditable="true" class="editable"></p>
+          <i class="fa-solid fa-pencil"></i
+        ></strong>
+
+        <!-- Information section moved below the editable name -->
+        <div class="info">
+          <h3>Information</h3>
+          <div class="info_data">
+            <div class="data">
+              <h2>Email</h2>
+              <p id="email" contenteditable="true" class="editable">
+                example@gmail.com
+              </p>
+            </div>
+            <div class="data">
+              <h2>Phone</h2>
+              <p id="phone" contenteditable="true" class="editable">
+                0001-213-998761
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="projects">
+          <h3>Your Notes</h3>
+          <div class="projects_data">
+            <% if (userPosts.length === 0) { %>
+            <p>No posts found.</p>
+            <% } else { %>
+            <ul class="article-ul">
+              <% userPosts.forEach(post => { %>
+              <li>
+                <a href="/post/<%= post._id %>">
+                  <span class="article-title"><%= post.title %></span>
+                  <span class="article-list__date"
+                    ><%= post.createdAt.toDateString() %></span
+                  >
+                </a>
+              </li>
+              <% }) %>
+            </ul>
+
+            <div class="pagination">
+              <% if (prevPage !== null) { %>
+              <a href="/profile?page=<%= prevPage %>" class="pagination"
+                >&lt; View Older Posts</a
+              >
+              <% } %> <% if (nextPage !== null) { %>
+              <a href="/profile?page=<%= nextPage %>" class="pagination"
+                >View Newer Posts &gt;</a
+              >
+              <% } %>
+            </div>
+            <!-- Closing div for pagination -->
+
+            <% } %>
+            <!-- Closing else block -->
+          </div>
+          <!-- Closing div for projects_data -->
+        </div>
+        <!-- Closing div for projects -->
+      </div>
+      <!-- Closing div for right -->
+    </div>
+
+    <script>
+      // Function to load the chosen profile picture
+      function loadProfilePic(event) {
+        const profilePic = document.getElementById("profilePic");
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function () {
+          profilePic.src = reader.result;
+          // Save the image to localStorage
+          localStorage.setItem("profilePic", reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // Function to load saved profile image, name, job title, email, and phone number from localStorage
+      function loadSavedData() {
+        const savedProfilePic = localStorage.getItem("profilePic");
+        const savedUsername = localStorage.getItem("username");
+        const savedJobTitle = localStorage.getItem("jobTitle");
+        const savedEmail = localStorage.getItem("email");
+        const savedPhone = localStorage.getItem("phone");
+
+        if (savedProfilePic) {
+          document.getElementById("profilePic").src = savedProfilePic;
+        }
+
+        if (savedUsername) {
+          document.getElementById("username").innerText = savedUsername;
+        }
+
+        if (savedJobTitle) {
+          document.getElementById("jobTitle").innerText = savedJobTitle;
+        }
+
+        if (savedEmail) {
+          document.getElementById("email").innerText = savedEmail;
+        }
+
+        if (savedPhone) {
+          document.getElementById("phone").innerText = savedPhone;
+        }
+      }
+
+      // Save the job title when it's edited
+      document
+        .getElementById("jobTitle")
+        .addEventListener("input", function () {
+          localStorage.setItem("jobTitle", this.innerText);
+        });
+
+      // Save the email when it's edited
+      document.getElementById("email").addEventListener("input", function () {
+        localStorage.setItem("email", this.innerText);
+      });
+
+      // Save the phone number when it's edited
+      document.getElementById("phone").addEventListener("input", function () {
+        localStorage.setItem("phone", this.innerText);
+      });
+
+      // Load data on page load
+      window.onload = function () {
+        loadSavedData();
+      };
+    </script>
+  </body>
+</html>

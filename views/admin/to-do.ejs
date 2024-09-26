@@ -1,0 +1,512 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ 
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+     <link rel="stylesheet" href="/public/css/style.css">
+     <style>
+        * {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+    
+        ::selection {
+            color: #1e293b; /* Selected text color in dark mode */
+            background: #ffffff; /* Selected background color in dark mode */
+        }
+    
+        .wrapper {
+            max-width: 505px;
+            margin: 37px auto;
+            padding: 28px 0 30px;
+            border-radius: 20px;
+            box-shadow: 4px 3px 7px 2px #00000040;            
+            transition: background-color 0.3s ease;
+            border: 2px solid #ccc;
+            background: #f0f0f0;
+  background-image: radial-gradient(#bfc0c1 7.2%, transparent 0);
+  background-size: 25px 25px;
+        }
+    
+        .task-input {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 0 25px;
+        }
+    
+        .task-input img {
+            width: 20px; /* Adjust width */
+            height: 20px; /* Adjust height */
+            margin-bottom: 5px;
+        }
+    
+        .task-input input {
+            height: 40px;
+            outline: none;
+            font-size: 16px;
+            border-radius: 5px;
+            padding: 0 15px;
+            border: 1px solid #ff1493;
+            background-color: transparent; /* Input background color in light mode */
+            color: #000000; /* Input text color in light mode */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+    
+        .task-input input:focus,
+        .task-input input.active {
+            border: 2px solid #ff1493;
+        }
+    
+        .task-input input::placeholder {
+            color: #000000;
+        }
+    
+        .controls,
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    
+        .controls {
+            padding: 18px 25px;
+            border-bottom: 1px solid #ccc;
+        }
+    
+        #pending{
+            margin: 0 8px;
+            font-size: 17px;
+            color: #6a5acd;
+            cursor: pointer;
+        }
+
+        #completed{
+            margin: 0 8px;
+            font-size: 17px;
+            color: #3cb371;
+            cursor: pointer;
+        }
+    
+        .filters span:first-child {
+            margin-left: 0;
+        }
+    
+        .filters span.active {
+            color: #3c3c3c;
+        }
+    
+        .controls .clear-btn {
+            border: none;
+            opacity: 0.6;
+            outline: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 7px 13px;
+            border-radius: 4px;
+            background: red;
+            letter-spacing: 0.3px;
+            pointer-events: none;
+            transition: transform 0.25s ease;
+        }
+    
+        .clear-btn.active {
+            opacity: 0.9;
+            pointer-events: auto;
+        }
+    
+        .clear-btn:active {
+            transform: scale(0.93);
+        }
+    
+        .task-box {
+            margin-top: 20px;
+            margin-right: 5px;
+            padding: 0 20px 10px 25px;
+            color: #000000; /* Task text color in light mode */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+    
+        .task-box.overflow {
+            overflow-y: auto;
+            max-height: 300px;
+        }
+    
+        .task-box::-webkit-scrollbar {
+            width: 5px;
+        }
+    
+        .task-box::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 25px;
+        }
+    
+        .task-box::-webkit-scrollbar-thumb {
+            background: #e6e6e6;
+            border-radius: 25px;
+        }
+    
+        .task-box .task {
+            list-style: none;
+            font-size: 17px;
+            margin-bottom: 18px;
+            padding-bottom: 16px;
+            align-items: flex-start;
+            border-bottom: 1px solid #ccc;
+        }
+    
+        .task-box .task:last-child {
+            margin-bottom: 0;
+            border-bottom: 0;
+            padding-bottom: 0;
+        }
+    
+        .task-box .task label {
+            display: flex;
+            align-items: flex-start;
+        }
+    
+        .task-box label input {
+            margin-top: 7px;
+            accent-color: #1e293b;
+        }
+    
+        .task-box label p {
+            user-select: none;
+            margin-left: 12px;
+            word-wrap: break-word;
+        }
+    
+        .task label p.checked {
+            text-decoration: line-through;
+        }
+    
+        .task-box .settings {
+            position: relative;
+        }
+    
+        .settings :where(i, .list) {
+            cursor: pointer;
+        }
+    
+        .settings .task-menus {
+            z-index: 10;
+            right: -5px;
+            bottom: -65px;
+            padding: 5px 0;
+            background: #fff;
+            position: absolute;
+            border-radius: 4px;
+            transform: scale(0);
+            transform-origin: top right;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease;
+        }
+    
+        .task-box .task:last-child .task-menus {
+            bottom: 0;
+            transform-origin: bottom right;
+        }
+    
+        .task-box .task:first-child .task-menus {
+            bottom: -105px;
+            transform-origin: top right;
+        }
+    
+        .task-menus.show {
+            transform: scale(1);
+        }
+    
+        .task-menus .list {
+            height: 25px;
+            font-size: 16px;
+            margin-bottom: 2px;
+            padding: 17px 15px;
+            cursor: pointer;
+            justify-content: flex-start;
+            display: flex;
+        }
+    
+        .task-menus .list:last-child {
+            margin-bottom: 0;
+        }
+    
+        .settings .list:hover {
+            background: #f5f5f5;
+        }
+    
+        .settings .list i {
+            padding-right: 8px;
+        }
+
+        .reminder-time {
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
+        margin-left: 13px;
+    }
+
+    .heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.heading__title {
+    font-family: 'Gochi Hand', cursive;
+  transform: rotate(2deg);
+  padding: 0.2rem 1.2rem;
+  border-radius: 20% 5% 20% 5%/5% 20% 25% 20%;
+  background-color: hsla(166, 100%, 50%, 0.7);
+  font-size: 1.5rem;
+}
+
+body.dark-mode .heading__title{
+    color: #1e293b;
+}
+
+        @media (max-width: 768px) {
+            .wrapper {
+                max-width: 90%;
+                margin: 20px auto;
+                padding: 20px 10px;
+            }
+    
+            .controls {
+                padding: 15px 20px;
+            }
+    
+            .task-input {
+                padding: 0 15px;
+            }
+    
+            .task-box {
+                padding: 0 15px 10px 20px;
+            }
+        }
+    
+        @media (max-width: 480px) {
+            .wrapper {
+                max-width: 100%;
+                margin: 10px auto;
+                padding: 15px 5px;
+            }
+    
+            .task-input {
+                padding: 0 10px;
+            }
+    
+            .controls {
+                padding: 10px 15px;
+            }
+    
+            .filters span {
+                margin: 0 5px;
+                font-size: 14px;
+            }
+    
+            .clear-btn {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
+    
+            .task-box {
+                padding: 0 10px 10px 15px;
+            }
+    
+            .task-box .task {
+                font-size: 15px;
+            }
+    
+            .task-box label input {
+                margin-top: 4px;
+            }
+    
+            svg{
+                display: none;
+            }
+        }
+    </style>
+    
+ </head>
+ 
+ <body class="light-mode">
+     <main class="main">
+         <div class="wrapper">
+             <div class="heading">
+                 <img class="heading__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/756881/laptop.svg" width="24%">
+                 <h1 class="heading__title">To-Do List</h1>
+                </div>
+                <div class="task-input">
+                <input type="text" placeholder="Add a new task" id="taskName">
+                <input type="datetime-local" id="reminderTime" placeholder="Set a reminder">
+            </div>
+        
+            <div class="controls">
+                <div class="filters">
+                    <span id="all" class="active">All</span>
+                    <span id="pending">Pending</span>
+                    <span id="completed">Completed</span>
+                </div>
+                <button class="clear-btn">Clear All</button>
+            </div>
+        
+            <ul class="task-box"></ul>
+            <audio id="notificationSound" src="img/notification.mp3" preload="auto"></audio>
+
+        </div>
+         </div>
+     </main>
+ <script>
+     gsap.from(".task-input", {
+        opacity: 0,
+        y: -50,
+        duration: 1,
+        ease: "power3.out"
+    });
+    
+    gsap.from(".controls", {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: "power3.out",
+        delay: 0.2
+    });
+    
+    gsap.from(".filters span, .clear-btn", {
+        opacity: 0,
+        y: 20,
+        duration: 0.5,
+        ease: "power2.out",
+        stagger: 0.1,
+        delay: 0.5
+    });
+    
+    gsap.from(".task-box", {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: "power3.out",
+        delay: 0.5
+    });
+    
+    const taskInput = document.getElementById("taskName");
+    const reminderInput = document.getElementById("reminderTime");
+    const taskBox = document.querySelector(".task-box");
+    const filters = document.querySelectorAll(".filters span");
+    const clearButton = document.querySelector(".clear-btn");
+    const notificationSound = document.getElementById("notificationSound");
+    
+    let todos = JSON.parse(localStorage.getItem("todo-list")) || [];
+    
+    function renderTasks(filter) {
+        let taskHTML = "";
+        todos.forEach((todo, id) => {
+            if (filter === todo.status || filter === "all") {
+                taskHTML += `<li class="task">
+                                <label>
+                                    <input type="checkbox" onclick="updateStatus(this)" ${todo.status === "completed" ? "checked" : ""}>
+                                    <p class="${todo.status === "completed" ? "checked" : ""}">${todo.name}</p>
+                                </label>
+                                <p class="reminder-time">${todo.reminder ? `Reminder: ${new Date(todo.reminder).toLocaleString()}` : ""}</p>
+                                <div class="settings">
+                                    <i onclick="showMenu(this)" class="uil uil-ellipsis-h"></i>
+                                    <ul class="task-menus">
+                                        <li class="list" onclick='editTask(${id}, "${todo.name}", "${todo.reminder}")'><i class="uil uil-pen"></i>Edit</li>
+                                        <li class="list" onclick='deleteTask(${id})'><i class="uil uil-trash"></i>Delete</li>
+                                    </ul>
+                                </div>
+                             </li>`;
+            }
+        });
+        taskBox.innerHTML = taskHTML || `<span>You don't have any tasks here</span>`;
+        clearButton.classList[todos.length ? "add" : "remove"]("active");
+        taskBox.classList[todos.length ? "add" : "remove"]("overflow");
+    }
+    
+    taskInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter" && taskInput.value.trim()) {
+            let taskName = taskInput.value.trim();
+            let reminderTime = reminderInput.value;
+    
+            todos.push({ name: taskName, reminder: reminderTime, status: "pending" });
+            localStorage.setItem("todo-list", JSON.stringify(todos));
+            renderTasks(document.querySelector(".filters span.active").id);
+            taskInput.value = "";
+            reminderInput.value = "";
+        }
+    });
+    
+    function updateStatus(selectedTask) {
+        let taskName = selectedTask.parentElement.lastElementChild;
+        todos.forEach(todo => {
+            if (todo.name === taskName.innerText) {
+                todo.status = selectedTask.checked ? "completed" : "pending";
+            }
+        });
+        localStorage.setItem("todo-list", JSON.stringify(todos));
+        renderTasks(document.querySelector(".filters span.active").id);
+    }
+    
+    function showMenu(selectedTask) {
+        let taskMenu = selectedTask.nextElementSibling;
+        taskMenu.classList.toggle("show");
+        document.addEventListener("click", e => {
+            if (e.target.tagName !== "I" || e.target !== selectedTask) {
+                taskMenu.classList.remove("show");
+            }
+        });
+    }
+    
+    function editTask(taskId, taskName, taskReminder) {
+        taskInput.value = taskName;
+        reminderInput.value = taskReminder;
+        deleteTask(taskId);
+    }
+    
+    function deleteTask(deleteId) {
+        todos.splice(deleteId, 1);
+        localStorage.setItem("todo-list", JSON.stringify(todos));
+        renderTasks(document.querySelector(".filters span.active").id);
+    }
+    
+    filters.forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.querySelector("span.active").classList.remove("active");
+            btn.classList.add("active");
+            renderTasks(btn.id);
+        });
+    });
+    
+    clearButton.addEventListener("click", () => {
+        todos = [];
+        localStorage.setItem("todo-list", JSON.stringify(todos));
+        renderTasks("all");
+    });
+    
+    function checkReminders() {
+        const now = new Date();
+        todos.forEach(todo => {
+            if (todo.reminder && new Date(todo.reminder) <= now && todo.status !== "completed") {
+                alert(`Reminder: ${todo.name}`);
+                notificationSound.play();
+                todo.status = "completed";
+                localStorage.setItem("todo-list", JSON.stringify(todos));
+                renderTasks(document.querySelector(".filters span.active").id);
+            }
+        });
+    }
+    
+    setInterval(checkReminders, 60000); // Check reminders every minute
+    
+    renderTasks("all");
+    </script>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+    
+ </body>
+ 
+ </html>

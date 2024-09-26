@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
+
+    <link
+      rel="shortcut icon"
+      type="x-icon"
+      href="https://logodix.com/logo/892162.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.4.2/uicons-regular-rounded/css/uicons-regular-rounded.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <title>Posts</title>
+  </head>
+  <style>
+    .admin-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* padding: 20px; */
+      gap: 30px;
+      margin-top: 3rem;
+    }
+
+    .admin-title h2 {
+      margin: 0;
+      margin-right: 30rem;
+    }
+
+    .buttons {
+      padding: 5px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 9rem;
+      text-decoration: none;
+      transition: 0.5s;
+      display: inline-flex;
+      align-items: center; /* Vertically centers the icon and text */
+    }
+
+    .buttons strong {
+      align-items: center;
+      margin-bottom: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .buttons i {
+      margin-right: 8px; /* Add space between the icon and the text */
+    }
+
+    .fi-rr-square-plus:before {
+      content: "\fcc1"; /* Icon code */
+      display: inline-block;
+      margin-top: 0.4rem;
+    }
+
+    .buttons:hover {
+      /* background-color: #0069d9; */
+      background-color: blue;
+      transition: 0.5s;
+    }
+
+    .button-draw {
+      padding: 5px 20px;
+      background-color: yellowgreen;
+      color: #000;
+      border: none;
+      border-radius: 9rem;
+      text-decoration: none;
+      transition: 0.5s;
+      display: inline-flex;
+      align-items: center; /* Vertically centers the icon and text */
+    }
+
+    .button-draw strong {
+      margin-bottom: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .button-draw i {
+      margin-right: 8px; /* Add space between the icon and the text */
+    }
+
+    .fi-rr-pencil:before {
+      content: "\fa29";
+      display: inline-block;
+      margin-top: 0.4rem;
+    }
+
+    .button-draw:hover {
+      /* background-color: #0069d9; */
+      background-color: lightgreen;
+      transition: 0.5s;
+    }
+
+    .admin-posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+      padding: 20px;
+    }
+
+    .post-box {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      padding: 20px;
+      width: 14rem;
+      height: 8rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth cubic-bezier timing */
+      transform-origin: center center; /* Ensures transformation originates from the center */
+    }
+
+    .post-box:hover {
+      transform: scale(1.09);
+    }
+
+    .post-title {
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #333;
+      display: block;
+      margin-bottom: 10px;
+      word-wrap: break-word;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .pin-btn {
+      background: none;
+      border: none;
+      color: #333;
+      cursor: pointer;
+      text-decoration: none; /* Remove default link underline */
+    }
+
+    .dropdown-content .pin-btn:hover {
+      background-color: lightblue;
+      transition-duration: 0.5s;
+    }
+
+    .pin-btn i {
+      margin-right: 5px; /* Space between icon and text */
+    }
+
+    .edit-btn i {
+      margin-right: 5px;
+    }
+
+    .admin-post-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 10px 15px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .edit-btn,
+    .delete-btn {
+      color: #000;
+      text-decoration: none;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 15px;
+      width: 35px;
+      height: 35px;
+      right: 15px;
+      /* background-color: aliceblue; */
+      /* border-radius: 50%; */
+      /* justify-content: center; */
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: #f9f9f9;
+      min-width: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: -4px;
+      padding: 5px;
+    }
+
+    .dropdown-content a,
+    .dropdown-content form {
+      padding: 4px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #333;
+      border-bottom: 2px solid #ccc;
+      cursor: pointer;
+      width: 50px;
+    }
+
+    .dropdown-content form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .dropdown-content a:hover {
+      background-color: lightgreen;
+      transition-duration: 0.5s;
+    }
+
+    .dropdown-content form:hover {
+      background-color: lightcoral;
+      transition-duration: 0.5s;
+    }
+
+    .dropdown .dropbtn {
+      background: none;
+      border: none;
+      font-size: 21px;
+      margin-left: -2px;
+      cursor: pointer;
+    }
+
+    input[type="submit"] {
+      cursor: pointer;
+      appearance: none;
+      border: none;
+      background: none;
+      color: black;
+    }
+
+    .post-color-0 {
+      background-color: #f7c59f;
+      border: 1px solid #ff9a9e;
+    }
+
+    .post-color-0:hover {
+      filter: drop-shadow(0px 14px 54px #f7c59f);
+    }
+
+    .post-color-1 {
+      background-color: #bbbac6;
+      border: 1px solid #a18cd1;
+    }
+
+    .post-color-1:hover {
+      filter: drop-shadow(0px 14px 54px #bbbac6);
+    }
+
+    .post-color-2 {
+      background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+      border: 1px solid #fda085;
+    }
+
+    .post-color-2:hover {
+      filter: drop-shadow(0px 14px 54px #fda085);
+    }
+    .post-color-3 {
+      background-color: #efefd0;
+      border: 1px solid #c7ede4;
+    }
+
+    .post-color-3:hover {
+      filter: drop-shadow(0px 14px 54px #efefd0);
+    }
+
+    .post-color-4 {
+      background-color: #85c7f2;
+      border: 1px solid #66a6ff;
+    }
+
+    .post-color-4:hover {
+      filter: drop-shadow(0px 14px 54px #85c7f2);
+    }
+
+    .post-color-5 {
+      background-color: #ff69b4;
+      border: 1px solid #ff69b4;
+      /* box-shadow: 0px 10px 35px #FF69B4; */
+    }
+
+    .post-color-5:hover {
+      filter: drop-shadow(0px 14px 54px #ff69b4);
+    }
+
+    .post-color-6 {
+      background-color: #b8b8f3;
+      border: 1px solid #6b8cce;
+      /* box-shadow: 0px 10px 35px #0c3483; */
+    }
+
+    .post-color-6:hover {
+      filter: drop-shadow(0px 14px 54px #b8b8f3);
+    }
+
+    .post-color-7 {
+      background-color: #a2c3a4;
+      border: 1px solid #6b8cce;
+      /* box-shadow: 0px 10px 35px #0c3483; */
+    }
+
+    .post-color-7:hover {
+      filter: drop-shadow(0px 14px 54px #a2c3a4);
+    }
+
+    .post-color-8 {
+      background-color: #c7ede4;
+      border: 1px solid #6b8cce;
+      /* box-shadow: 0px 10px 35px #0c3483; */
+    }
+
+    .post-color-8:hover {
+      filter: drop-shadow(0px 14px 54px #c7ede4);
+    }
+
+    .post-color-9 {
+      background-color: #d7b8f3;
+      border: 1px solid #6b8cce;
+      /* box-shadow: 0px 10px 35px #0c3483; */
+    }
+
+    .post-color-9:hover {
+      filter: drop-shadow(0px 14px 54px #d7b8f3);
+    }
+    .wrapper {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .download-btn {
+      position: absolute;
+      bottom: 10px; /* Shift the button down */
+      left: 20px;
+      width: 10px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      border: none;
+    }
+
+    .download-btn i {
+      font-size: 20px;
+    }
+
+    .article-list__dates {
+      font-size: 1rem;
+      color: #000;
+      width: 100px;
+      display: inline-block;
+      width: 260px;
+      margin: 55px 0px 0px 95px;
+    }
+
+    /* Responsive styles */
+    @media screen and (max-width: 1200px) {
+      .admin-title h2 {
+        margin-right: 20rem;
+      }
+    }
+
+    @media screen and (max-width: 992px) {
+      .admin-title h2 {
+        margin-right: 10rem;
+      }
+
+      .admin-posts-grid {
+        grid-template-columns: repeat(3, 1fr); /* Adjust to 3 columns */
+      }
+    }
+
+    @media (max-width: 768px) {
+      .admin-post-controls {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      .download-btn {
+        left: 20px;
+        width: 10px;
+        height: 20px;
+        border-radius: 50%;
+      }
+
+      .admin-title h2 {
+        margin-right: 1rem;
+      }
+
+      .button {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+
+      .admin-posts-grid {
+        grid-template-columns: repeat(2, 1fr); /* Adjust to 2 columns */
+      }
+
+      .button-draw {
+        padding: 12px 12px;
+        background-color: yellowgreen;
+        color: #000;
+        border: none;
+        border-radius: 50%;
+        text-decoration: none;
+        transition: 0.5s;
+      }
+
+      .button-draw strong {
+        display: none;
+      }
+
+      .fi-rr-pencil:before {
+        content: "\fa29";
+        display: inline-block;
+        margin-top: 0rem;
+      }
+
+      .button-draw strong {
+        display: none;
+      }
+
+      .buttons {
+        padding: 12px 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        text-decoration: none;
+        transition: 0.5s;
+      }
+
+      .fi-rr-square-plus:before {
+        content: "\fcc1"; 
+        display: inline-block;
+        margin-top: 0rem;
+      }
+
+      .buttons strong {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .admin-title {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 12px;
+        align-items: baseline;
+      }
+
+      .admin-title h2 {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+
+      .button {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
+      .admin-posts-grid {
+        grid-template-columns: 1fr; /* Adjust to 1 column */
+        gap: 15px;
+      }
+
+      .button-draw {
+        padding: 12px 12px;
+        background-color: yellowgreen;
+        color: #000;
+        border: none;
+        border-radius: 50%;
+        text-decoration: none;
+        transition: 0.5s;
+      }
+
+      .fi-rr-pencil:before {
+        content: "\fa29";
+        display: inline-block;
+        margin-top: 0rem;
+      }
+
+      .button-draw strong {
+        display: none;
+      }
+
+      .buttons {
+        padding: 12px 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        text-decoration: none;
+        transition: 0.5s;
+      }
+
+      .fi-rr-square-plus:before {
+        content: "\fcc1"; 
+        display: inline-block;
+        margin-top: 0rem;
+      }
+
+      .buttons strong {
+        display: none;
+      }
+    }
+  </style>
+
+  <body>
+    <div>
+      <div class="admin-title">
+        <h2>Posts</h2>
+        <a href="/draw" class="button-draw"
+          ><i class="fi fi-rr-pencil"></i><strong>Draw Here</strong></a
+        >
+        <a href="/add-post" class="buttons"
+          ><i class="fi fi-rr-square-plus"></i><strong>Take a Note</strong></a
+        >
+      </div>
+      <div class="admin-posts-grid">
+        <% posts.forEach((post, index) => { %>
+        <div class="post-box post-color-<%= index % 10 %>">
+          <div class="dropdown">
+            <button class="dropbtn">
+              <i
+                class="fa-solid fa-circle-chevron-down"
+                style="margin-top: 5px; margin-left: 5px"
+              ></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="/edit-post/<%= post._id %>" class="edit-btn"
+                ><i class="uil uil-pen"></i>Edit</a
+              >
+              <form
+                action="/delete-post/<%= post._id %>?_method=DELETE"
+                method="POST"
+                class="delete-form"
+              >
+                <i class="uil uil-trash"></i>
+                <input type="submit" value="Delete" class="delete-btn" />
+              </form>
+              <a
+                href="#"
+                class="pin-btn"
+                data-id="<%= post._id %>"
+                data-pinned="<%= post.pinned %>"
+              >
+                <i class="uil uil-lock-alt"></i><%= post.pinned ? 'Unpin' :
+                'Pin' %>
+              </a>
+            </div>
+          </div>
+          <a href="/post/<%= post._id %>" class="post-title">
+            <%= post.title %> &nearr;
+          </a>
+          <a
+            href="/notes/<%= post._id %>/pdf"
+            class="btn btn-primary download-btn"
+            ><i class="uil uil-download-alt"></i
+          ></a>
+          <span class="article-list__dates"
+            ><%= post.createdAt.toDateString() %></span
+          >
+        </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let previouslyPinnedPost = null; // Variable to store previously pinned post
+
+        document.querySelectorAll(".dropbtn").forEach((button) => {
+          button.addEventListener("click", () => {
+            const dropdownContent = button.nextElementSibling;
+            dropdownContent.style.display =
+              dropdownContent.style.display === "block" ? "none" : "block";
+          });
+        });
+
+        document.querySelectorAll(".pin-btn").forEach((button) => {
+          // Set initial pin button text based on data-pinned attribute
+          button.innerHTML = `<i class="uil uil-lock-alt"></i>${
+            button.dataset.pinned === "true" ? "Unpin" : "Pin"
+          }`;
+
+          button.addEventListener("click", async () => {
+            const postId = button.dataset.id;
+            const pinned = button.dataset.pinned === "true";
+
+            try {
+              const response = await fetch(`/pin-post/${postId}`, {
+                method: "POST",
+                body: JSON.stringify({ pinned: !pinned }),
+                headers: { "Content-Type": "application/json" },
+              });
+              const data = await response.json();
+
+              if (data.success) {
+                // Update pinned state
+                button.dataset.pinned = !pinned;
+
+                // Toggle button text based on new pinned state
+                button.innerHTML = `<i class="uil uil-lock-alt"></i>${
+                  button.dataset.pinned === "true" ? "Unpin" : "Pin"
+                }`;
+
+                // Move the post box to the top if pinned or back if unpinned
+                const postBox = button.closest(".post-box");
+                const grid = document.querySelector(".admin-posts-grid");
+                if (!pinned) {
+                  // Unpinning: Move previously pinned post back to its original position
+                  if (previouslyPinnedPost) {
+                    // Get the index of the previously pinned post
+                    const index = Array.from(grid.children).indexOf(
+                      previouslyPinnedPost
+                    );
+                    // Insert current postBox before the post at the original index
+                    grid.insertBefore(postBox, grid.children[index]);
+                  } else {
+                    // Append to end if no previously pinned post
+                    grid.appendChild(postBox);
+                  }
+                } else {
+                  // Pinning: Move pinned post to the top
+                  grid.prepend(postBox);
+                  // Update previously pinned post reference
+                  previouslyPinnedPost = postBox;
+                }
+              } else {
+                alert("Failed to toggle pin status");
+              }
+            } catch (error) {
+              console.error("Error:", error);
+              alert("Failed to toggle pin status");
+            }
+          });
+        });
+
+        // GSAP ScrollTrigger animation for the admin-posts-grid section
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.fromTo(
+          ".admin-posts-grid .post-box",
+          {
+            y: 50,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.3,
+            scrollTrigger: {
+              trigger: ".admin-posts-grid",
+              start: "top center",
+              toggleActions: "play none none reverse",
+              onEnterBack: () => {
+                gsap.fromTo(
+                  ".admin-posts-grid .post-box",
+                  { y: 0, opacity: 1 },
+                  { y: 50, opacity: 0, duration: 0.5, stagger: 0.1 }
+                );
+              },
+            },
+          }
+        );
+      });
+    </script>
+  </body>
+</html>

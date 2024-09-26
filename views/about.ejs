@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+    <header><h4 class="page-title">About</h4></header>
+        <main>
+          <article class="content">
+                    <p class="content__text">Write your thoughts down as they come to you. Notes is a simple to use free note taking app made with Node.Js, EJS & MongoDB.
+              </p>
+            <div class="containers">
+                <div class="section" id="features">
+                    <h2>Features</h2>
+                    <ul>
+                        <li>Attractive Front Page</li>
+                        <li>Admin Login and Register</li>
+                        <li>Search</li>
+                        <li>Create Notes</li>
+                        <li>Update Notes</li>
+                        <li>Delete Notes</li>
+                        <li>View Notes</li>
+                    </ul>
+                </div>
+                <div class="section" id="tech-stack">
+                    <h2>Tech Stack</h2>
+                    <ul>
+                        <li>HTML5</li>
+                        <li>CSS3</li>
+                        <li>JavaScript</li>
+                        <li>NodeJS</li>
+                        <li>Express</li>
+                        <li>EJS</li>
+                        <li>MongoDB</li>
+                        <li>Bootstrap</li>
+                    </ul>
+                </div>
+                <div class="section" id="dependencies">
+                    <h2>Dependencies Used</h2>
+                    <ul>
+                        <li>bcrypt</li>
+                        <li>Cookieparser (1.4.6)</li>
+                        <li>Jsonwebtoken (9.0.0) </li>
+                        <li>Connectmongo (5.5.0)</li>
+                        <li>Dotenv (16.0.3)</li>
+                        <li>EJS (3.1.9)</li>
+                        <li>Express (4.18.2)</li>
+                        <li>Express EJS Layouts (2.5.1)</li>
+                        <li>Express Session (1.17.3)</li>
+                        <li>Method Override (3.0.0)</li>
+                        <li>Mongoose (6.8.1)</li>
+                        <li>Nodemon (2.0.20)</li>
+                    </ul>
+                </div>
+            </div>
+          </article>
+        </main>
+      </div> 
+      <script>
+                gsap.from(".page-title", {
+            opacity: 0,
+            y: -50,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        gsap.from(".content__text", {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: "power3.out",
+            delay: 0.5
+        });
+        
+        gsap.from(".section", {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: "power3.out",
+            stagger: 0.3,
+            delay: 1
+        });
+    </script>   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+</body>
+</html>

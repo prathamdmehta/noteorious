@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/css/style.css" />
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap");
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      /* overflow: hidden; */
+    }
+
+    /* Pretty Stuff */
+    .contact-form-container {
+      background: #f4f3f3;
+      font-family: "Lato", sans-serif;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .contact-us {
+      position: relative;
+      width: 250px;
+      background: #FBDB65;
+      overflow: hidden;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      border-right: 1px solid #444;
+    }
+    .contact-us:before {
+      position: absolute;
+      content: "";
+      bottom: -50px;
+      left: -100px;
+      height: 250px;
+      width: 400px;
+      background: #f8b7d8;
+      transform: rotate(25deg);
+    }
+    .contact-us:after {
+      position: absolute;
+      content: "";
+      bottom: -80px;
+      right: -100px;
+      height: 270px;
+      width: 400px;
+      background: #9ed8eb;
+      transform: rotate(-25deg);
+    }
+
+    .contact-header {
+      color: #444;
+      position: absolute;
+      transform: rotate(-90deg);
+      top: 120px;
+      left: -40px;
+    }
+    .contact-header h1 {
+      font-size: 1.5rem;
+    }
+
+    .social-bar {
+      position: absolute;
+      bottom: 20px;
+      left: 75px;
+      z-index: 1;
+      width: 100px;
+    }
+    .social-bar ul {
+      list-style-type: none;
+    }
+    .social-bar ul li {
+      display: inline-block;
+      color: #444;
+      width: 25px;
+      height: 25px;
+      line-height: 25px;
+      text-align: center;
+      margin-right: -4px;
+      font-size: 1.2rem;
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px 0;
+      color: #444;
+    }
+    .header h1 {
+      font-weight: normal;
+    }
+    .header h2 {
+      margin-top: 10px;
+      font-weight: 300;
+    }
+
+    .address,
+    .email,
+    .phone {
+      text-align: center;
+      padding: 20px 0;
+      color: #444;
+    }
+    .address h3,
+    .email h3,
+    .phone h3 {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .address i,
+    .email i,
+    .phone i {
+      color: purple;
+      font-size: 1.7rem;
+      margin-bottom: 20px;
+    }
+
+    form {
+      position: relative;
+      width: 440px;
+      margin: 0 auto;
+      padding: 20px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      background: white;
+      border-radius: 10px;
+      border: 2px dotted #444;
+    }
+    form input,
+    form textarea {
+      background: white;
+      display: block;
+      margin: 20px auto;
+      width: 100%;
+      border: 0;
+    }
+    form input {
+      height: 40px;
+      line-height: 40px;
+      outline: 0;
+      border-bottom: 1px solid rgba(68, 68, 68, 0.3);
+      font-size: 1rem;
+      color: rgba(68, 68, 68, 0.8);
+    }
+    form textarea {
+      border-bottom: 1px solid rgba(68, 68, 68, 0.3);
+      resize: none;
+      outline: none;
+      font-size: 1rem;
+      font-family: lato;
+      color: rgba(68, 68, 68, 0.8);
+    }
+    form button {
+      position: absolute;
+      display: block;
+      height: 40px;
+      width: 250px;
+      left: 95px;
+      border: 1px solid purple;
+      border-radius: 20px;
+      bottom: -20px;
+      background: #9ed8eb;
+      color: #444;
+      font-size: 1.1rem;
+      font-weight: 300;
+      outline: none;
+    }
+
+    .contact-form {
+      padding-bottom: 40px;
+    }
+
+    /* Layout Stuff */
+
+    .contact-form-container {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: 0.5fr 0.5fr 2fr;
+      grid-template-areas: "contact-us header header header" "contact-us address phone email" "contact-us contact-form contact-form contact-form";
+    }
+
+    .contact-us {
+      grid-area: contact-us;
+    }
+
+    .header {
+      grid-area: header;
+    }
+
+    .address {
+      grid-area: address;
+    }
+
+    .phone {
+      grid-area: phone;
+    }
+
+    .email {
+      grid-area: email;
+    }
+
+    .contact-form {
+      grid-area: contact-form;
+    }
+  </style>
+  <body>
+    <div class="contact-form-container">
+      <div class="contact-us">
+        <div class="contact-header">
+          <h1>&#9135;&#9135;&#9135;&#9135;&nbsp;&nbsp;CONTACT US</h1>
+        </div>
+        <div class="social-bar">
+          <ul>
+            <li>
+              <i class="fab fa-facebook-f"></i>
+            </li>
+            <li>
+              <i class="fab fa-twitter"></i>
+            </li>
+            <li>
+              <i class="fab fa-instagram"></i>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="header">
+        <h1>Let's Connect!</h1>
+        <h2>Contact me, <span style="color: #6a5acd; font-weight: 400;"><%= username %></span> for query!</h2>
+      </div>
+      <div class="address">
+        <i class="fas fa-map-marker-alt"></i>
+        <h3>Mumbai</h3>
+        <h3>Maharastra, India</h3>
+      </div>
+      <div class="phone">
+        <i class="fas fa-phone-alt"></i>
+        <h3>+91 7666077745</h3>
+      </div>
+      <div class="email">
+        <i class="fas fa-envelope"></i>
+        <h3>mehta2935@gmail.com</h3>
+      </div>
+      <div class="contact-form">
+        <form action="https://api.web3forms.com/submit" method="POST">
+          <!-- Replace with your Access Key -->
+          <input
+            type="hidden"
+            name="access_key"
+            value="05ee6075-04ef-43f5-beb9-86ef23bf97a0"
+          />
+
+          <!-- Form Inputs. Each input must have a name="" attribute -->
+          <input
+            type="text"
+            name="name"
+            required
+            placeholder="Enter Your Name"
+          />
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="Enter Your Email"
+          />
+          <textarea
+            name="message"
+            required
+            placeholder="Tell me your query..."
+          ></textarea>
+
+          <button type="submit">Submit Form</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

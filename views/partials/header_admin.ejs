@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.4.2/uicons-bold-straight/css/uicons-bold-straight.css"
+    />
+  </head>
+  <style>
+    .header__nav {
+      position: relative;
+    }
+
+    .dropdowns {
+      display: inline-block;
+      position: relative;
+    }
+
+    .dropdown-toggle {
+      background-color: transparent;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .dropdowns:hover .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-menu .header__nav-item {
+      padding: 5px 15px;
+    }
+
+    .dropdown-menu .header__nav-item .header__nav-link {
+      color: black;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-menu .header__nav-item:hover .header__nav-link {
+      background-color: #f1f1f1;
+    }
+
+    .logout-button {
+      background-color: #ff6347;
+      padding: 5px 5px;
+      border-radius: 5px;
+      box-shadow: -3px 4px 1px #000;
+      text-decoration: none;
+    }
+
+    /* Profile dropdown */
+    .profile-dropdown {
+      display: inline-block;
+      position: relative;
+    }
+
+    #dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #6a5acd;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      margin-top: 1px;
+      border: 2px dotted white;
+      border-radius: 4px;
+      left: 20%;
+      transform: translateX(-50%);      
+    }
+    
+    .profile-dropdown:hover #dropdown-content {
+      display: block;
+
+    }
+
+    #dropdown-button:hover svg {
+      transform: rotate(180deg);
+      transition: transform 0.5s ease;
+    }
+  </style>
+  <body>
+    <header class="header">
+      <nav class="header__nav">
+        <div class="dropdowns">
+          <button class="dropdown-toggle">
+            <img src="img/three-dot.png" alt="" width="55px" />
+          </button>
+          <ul class="dropdown-menu">
+            <li class="header__nav-item">
+              <a href="/" class="header__nav-link">Home</a>
+            </li>
+            <li class="header__nav-item">
+              <a href="/todo" class="header__nav-link">To-Do's</a>
+            </li>
+            <li class="header__nav-item">
+              <a href="/dashboard" class="header__nav-link">Dashboard</a>
+            </li>
+            <li class="header__nav-item">
+              <a href="/about" class="header__nav-link">About</a>
+            </li>
+            <li class="header__nav-item">
+              <a href="/contact" class="header__nav-link">Contact Me!</a>
+            </li>
+          </ul>
+        </div>
+        <a href="/" class="header__logo">Admin Panel</a>
+      </nav>
+
+      <div class="header__button">
+        <span
+          style="
+            font-weight: bold;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            color: #6a5acd;
+            margin-right: 5px;
+          "
+          ><%= username %></span
+        >
+
+        <!-- Profile dropdown -->
+        <div class="profile-dropdown">
+          <button
+            id="dropdown-button"
+            style="
+              background-color: #6a5acd;
+              color: white;
+              border: none;
+              border-radius: 50%;
+              padding: 8px 8px;
+              cursor: pointer;
+              margin-right: 1.5rem;
+            "
+          >
+            <svg width="20" height="20" style="vertical-align: middle">
+              <polygon points="10,15 5,7 15,7" fill="white" />
+            </svg>
+          </button>
+
+          <!-- Dropdown Content -->
+          <div id="dropdown-content">
+            <!-- Dark Mode Toggle -->
+            <label
+              for="dark-mode-toggle"
+              style="
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                padding: 8px 18px;
+                justify-content: center;
+              "
+            >
+              <input
+                type="checkbox"
+                id="dark-mode-toggle"
+                style="display: none"
+              />
+              <svg width="30" height="30">
+                <circle cx="15" cy="15" r="6" fill="yellow" />
+
+                <line
+                  id="ray"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  x1="15"
+                  y1="1"
+                  x2="15"
+                  y2="4"
+                ></line>
+
+                <use href="#ray" transform="rotate(45 15 15)" />
+                <use href="#ray" transform="rotate(90 15 15)" />
+                <use href="#ray" transform="rotate(135 15 15)" />
+                <use href="#ray" transform="rotate(180 15 15)" />
+                <use href="#ray" transform="rotate(225 15 15)" />
+                <use href="#ray" transform="rotate(270 15 15)" />
+                <use href="#ray" transform="rotate(315 15 15)" />
+              </svg>
+            </label>
+
+            <!-- Profile Link -->
+            <a
+              href="/profile"
+              style="
+                display: block;
+                padding: 10px 15px;
+                color: white;
+                text-decoration: none;
+                font-weight: bold;
+              "
+              >Profile</a
+            >
+          </div>
+        </div>
+
+        <a href="/logout" style="text-decoration: none" class="logout-button">
+          <button class="button" style="margin-top: 4px">
+            <i class="fi fi-bs-sign-out-alt"></i>Logout
+          </button>
+        </a>
+
+      </div>
+    </header>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const dropdownToggle = document.querySelector(".dropdown-toggle");
+        const dropdownMenu = document.querySelector(".dropdown-menu");
+
+        dropdownToggle.addEventListener("click", function () {
+          dropdownMenu.classList.toggle("show");
+        });
+
+        document.addEventListener("click", function (event) {
+          if (
+            !dropdownToggle.contains(event.target) &&
+            !dropdownMenu.contains(event.target)
+          ) {
+            dropdownMenu.classList.remove("show");
+          }
+        });
+      });
+
+      // Function to toggle dropdown
+      function toggleDropdown() {
+        const content = document.getElementById("dropdown-content");
+        content.style.display =
+          content.style.display === "block" ? "none" : "block";
+      }
+
+      // Event listeners
+      document.getElementById("dropdown-button").onclick = toggleDropdown;
+      document.getElementById("toggle-icon").onclick = function (event) {
+        event.stopPropagation(); // Prevent event from bubbling up to the button
+        toggleDropdown();
+      };
+
+      // Close the dropdown if clicked outside
+      window.onclick = function (event) {
+        if (
+          !event.target.matches("#dropdown-button") &&
+          !event.target.matches("#toggle-icon")
+        ) {
+          const content = document.getElementById("dropdown-content");
+          content.style.display = "none";
+        }
+      };
+    </script>
+    <script src="/public/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  </body>
+</html>

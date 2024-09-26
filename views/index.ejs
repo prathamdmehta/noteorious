@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.1/TextPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="/public/css/style.css" />
+  </head>
+
+  <body>
+
+    <!-- LOADER -->
+    <div id="loader">
+      <h3>Welcome</h3>
+      <h3>to</h3>
+      <h3 style="font-family: 'Gochi Hand', cursive;">Note-Orious®️</h3>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-content">
+        <h2>
+          Keep your <span class="thoughts">thoughts</span
+          ><img
+            src="http://clipart-library.com/img1/1399852.png"
+            alt=""
+            width="65px"
+          />
+          safe and easily
+          <img
+            src="img/victory.png"
+            style="width: 55px; transform: rotate(-35deg)"
+          />
+          accessible with <span class="note">Note-Orious</span>
+        </h2>
+        <p>
+          Note-Orious is a simple to use free note taking website made with
+          Node.js, EJS & MongoDB.
+        </p>
+        <div class="hero-button">
+          <a href="/dashboard" class="btn-primarys"
+            >Get Started
+            <img
+              src="img/next.png"
+              alt=""
+              width="20px"
+              style="text-align: center"
+          /></a>
+        </div>
+      </div>
+      <div class="hero-svg-left">
+        <img src="img/human-1.svg" alt="Left SVG" />
+      </div>
+      <div class="hero-svg-right">
+        <img src="img/human-2.svg" alt="Right SVG" />
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features">
+      <div class="extra-image left-bottom">
+        <img src="img/flash.png" alt="Left Bottom Image" />
+      </div>
+      <div class="extra-image right-top">
+        <img src="img/zigzag.png" alt="Right Top Image" />
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">
+          <img src="img/folders.png" alt="Easy Organization Icon" />
+        </div>
+        <h3>Easy organization</h3>
+        <p>
+          Organize your notes with our user-friendly interface, making it easy
+          to find the note you want.
+        </p>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">
+          <img src="img/data-protection.png" alt="Secure Storage Icon" />
+        </div>
+        <h3>Secure storage</h3>
+        <p>
+          Keep your notes safe with our state-of-the-art storage system that
+          ensures your content are protected and accessible when you need them.
+        </p>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">
+          <img src="img/sharing.png" alt="Share with Ease Icon" />
+        </div>
+        <h3>Share with ease</h3>
+        <p>
+          Share your notes with friends and family by sharing them on social
+          media or by email.
+        </p>
+      </div>
+    </section>
+
+    <!-- ARTICLES SECTION -->
+    <section class="articles">
+      <h2 class="articles__heading">Latest Posts</h2>
+
+      <ul class="article-ul">
+        <% data.forEach(post => { %>
+        <li>
+          <a href="/post/<%= post._id %>">
+            <span class="article-title"><%= post.title %></span>
+            <span class="article-list__date"
+              ><%= post.createdAt.toDateString() %></span
+            >
+          </a>
+        </li>
+        <% }) %>
+      </ul>
+
+      <% if (nextPage !== null) { %>
+      <a href="/?page=<%= nextPage %>" class="pagination"
+        >&lt; View Older Posts</a
+      >
+      <% } %>
+    </section>
+    
+    <script src="/public/js/script.js"></script>
+  </body>
+</html>

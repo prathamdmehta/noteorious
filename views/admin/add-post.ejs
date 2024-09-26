@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <style>
+    /* Default Light Mode Styles */
+    body {
+      background-color: #FFFCE9;
+      color: #000000;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .ql-editor {
+      border-radius: 10px;
+      border: 2px solid #000;
+      height: 15rem;
+      font-size: 15px;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .title-input {
+      border-radius: 10px;
+      background-color: transparent;
+      color: #000000; /* Adjust text color for title input */
+      transition: color 0.3s ease;
+    }
+
+    .btn {
+      border-radius: 5px;
+      background-color: green;
+      color: #ffffff; /* Button text color */
+    }
+
+    .admin-title {
+      color: #000; /* Title color */
+    }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background-color: #121212;
+      color: #ffffff;
+    }
+
+    .dark-mode .title-input {
+      color: #ffffff; /* Adjust text color for title input in dark mode */
+    }
+
+    .dark-mode .btn {
+      background-color: #4CAF50; /* Example dark mode button color */
+      color: #ffffff; /* Button text color in dark mode */
+    }
+
+    .dark-mode .admin-title {
+      color: #ffffff; /* Adjust title color in dark mode */
+    }
+  </style>
+  <title>Add New Post</title>
+</head>
+<body class="light-mode"> <!-- Default to light mode -->
+
+<a href="/dashboard" style="text-decoration: none; color: blue;">&larr; Back</a> <!-- Set anchor tag color -->
+<div class="admin-title">
+  <h2>Add New Post</h2>
+</div>
+
+<form action="/add-post" method="POST">
+
+  <label for="title"><b>Title</b></label>
+  <input type="text" placeholder="Post Title" name="title" class="title-input">
+
+  <label for="body"><b>Content</b></label>
+  <div id="editor-container"></div>
+  <textarea name="body" id="body" style="display: none;"></textarea>
+
+  <input type="submit" value="Add" class="btn">
+
+</form>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const toolbarOptions = [
+  ['bold', 'italic', 'underline', 'strike'],        
+  ['blockquote', 'code-block'],
+
+  [{ 'header': 1 }, { 'header': 2 }],               
+  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+  [{ 'script': 'sub'}, { 'script': 'super' }],      
+  [{ 'indent': '-1'}, { 'indent': '+1' }],          
+  [{ 'direction': 'rtl' }],                         
+
+  [{ 'size': ['small', false, 'large', 'huge'] }],  
+  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+  [{ 'color': [] }, { 'background': [] }],          
+  [{ 'font': [] }],
+  [{ 'align': [] }],
+
+  ['link'],  // Add hyperlink option
+  ['clean'],                                         
+  ['mic']   // Assuming 'mic' is for speech-to-text
+];
+
+
+    const quill = new Quill('#editor-container', {
+      theme: 'snow',
+      modules: {
+        toolbar: toolbarOptions
+      }
+    });
+
+    const micButton = document.querySelector('.ql-mic');
+    micButton.classList.add('ql-mic-button');
+    micButton.innerHTML = '🎤';
+
+    if ('webkitSpeechRecognition' in window) {
+      const recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        quill.clipboard.dangerouslyPasteHTML(quill.getLength() - 1, transcript + ' ');
+      };
+
+      recognition.onerror = function(event) {
+        console.error('Speech recognition error', event.error);
+      };
+
+      recognition.onend = function() {
+        console.log('Speech recognition service disconnected');
+      };
+
+      micButton.addEventListener('click', function() {
+        recognition.start();
+      });
+    } else {
+      micButton.disabled = true;
+      alert('Speech recognition not supported in this browser.');
+    }
+
+    // GSAP animations
+    gsap.from(".admin-title", {
+      opacity: 0,
+      y: -50,
+      duration: 1,
+      ease: "power3.out"
+    });
+
+    gsap.from(".title-input", {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: "power3.out",
+      delay: 0.5
+    });
+
+    gsap.from(".btn", {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: "power3.out",
+      delay: 1
+    });
+    
+    function toggleDarkMode() {
+      const body = document.body;
+      body.classList.toggle('dark-mode');
+    }
+
+    const form = document.querySelector('form');
+    const bodyTextarea = document.getElementById('body');
+    form.onsubmit = function() {
+      bodyTextarea.value = quill.root.innerHTML; // Sync with Quill's HTML content
+    };
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<a href="/dashboard" style="text-decoration: none; color: blue;">&larr; Back</a>
+<div class="admin-title">
+  <h2>View / Edit Post</h2>
+
+  <form action="/delete-post/<%= post._id %>?_method=DELETE" method="POST">
+    <input type="submit" value="Delete" class="btn-delete btn" style="border-radius: 5px;">
+  </form>
+</div>
+
+<form action="/edit-post/<%= post._id %>?_method=PUT" method="POST" id="edit-post-form">
+  <label for="title"><b>Title</b></label>
+  <input type="text" placeholder="Post Title" name="title" value="<%= post.title %>" style="border-radius: 10px">
+
+  <label for="body"><b>Content</b></label>
+  <div id="quill-container" style="height: 200px; border-radius: 10px; font-size: 15px; font-family: Verdana, Geneva, Tahoma, sans-serif; border: 2px solid #000;"><%- post.body %></div>
+  
+  <input type="hidden" name="body" id="hidden-body">
+  <button type="button" id="mic-button" style="position: absolute; top: 10px; right: 10px; background: none; border: none;">
+    🎤
+  </button>
+  <input type="submit" value="Update" class="btn" style="border-radius: 5px;">
+</form>
+
+
+<!-- Include Quill.js -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const micButton = document.getElementById('mic-button');
+
+    // Initialize Quill editor
+    const quill = new Quill('#quill-container', {
+      theme: 'snow'
+    });
+
+    // Set the initial content of the Quill editor
+    quill.root.innerHTML = `<%- post.body %>`;
+
+    // Handle form submission
+    const form = document.getElementById('edit-post-form');
+    const hiddenBodyInput = document.getElementById('hidden-body');
+    form.addEventListener('submit', function(event) {
+      hiddenBodyInput.value = quill.root.innerHTML;
+    });
+
+    // Check if the browser supports the Web Speech API
+    if ('webkitSpeechRecognition' in window) {
+      const recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        quill.root.innerHTML += transcript + ' ';
+      };
+
+      recognition.onerror = function(event) {
+        console.error('Speech recognition error', event.error);
+      };
+
+      recognition.onend = function() {
+        console.log('Speech recognition service disconnected');
+      };
+
+      micButton.addEventListener('click', function() {
+        recognition.start();
+      });
+    } else {
+      micButton.disabled = true;
+      alert('Speech recognition not supported in this browser.');
+    }
+  });
+</script>
