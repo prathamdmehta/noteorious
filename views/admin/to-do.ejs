@@ -361,148 +361,170 @@ body.dark-mode .heading__title{
          </div>
      </main>
  <script>
-     gsap.from(".task-input", {
-        opacity: 0,
-        y: -50,
-        duration: 1,
-        ease: "power3.out"
-    });
-    
-    gsap.from(".controls", {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: "power3.out",
-        delay: 0.2
-    });
-    
-    gsap.from(".filters span, .clear-btn", {
-        opacity: 0,
-        y: 20,
-        duration: 0.5,
-        ease: "power2.out",
-        stagger: 0.1,
-        delay: 0.5
-    });
-    
-    gsap.from(".task-box", {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: "power3.out",
-        delay: 0.5
-    });
-    
-    const taskInput = document.getElementById("taskName");
-    const reminderInput = document.getElementById("reminderTime");
-    const taskBox = document.querySelector(".task-box");
-    const filters = document.querySelectorAll(".filters span");
-    const clearButton = document.querySelector(".clear-btn");
-    const notificationSound = document.getElementById("notificationSound");
-    
-    let todos = JSON.parse(localStorage.getItem("todo-list")) || [];
-    
-    function renderTasks(filter) {
-        let taskHTML = "";
-        todos.forEach((todo, id) => {
-            if (filter === todo.status || filter === "all") {
-                taskHTML += `<li class="task">
-                                <label>
-                                    <input type="checkbox" onclick="updateStatus(this)" ${todo.status === "completed" ? "checked" : ""}>
-                                    <p class="${todo.status === "completed" ? "checked" : ""}">${todo.name}</p>
-                                </label>
-                                <p class="reminder-time">${todo.reminder ? `Reminder: ${new Date(todo.reminder).toLocaleString()}` : ""}</p>
-                                <div class="settings">
-                                    <i onclick="showMenu(this)" class="uil uil-ellipsis-h"></i>
-                                    <ul class="task-menus">
-                                        <li class="list" onclick='editTask(${id}, "${todo.name}", "${todo.reminder}")'><i class="uil uil-pen"></i>Edit</li>
-                                        <li class="list" onclick='deleteTask(${id})'><i class="uil uil-trash"></i>Delete</li>
-                                    </ul>
-                                </div>
-                             </li>`;
-            }
-        });
-        taskBox.innerHTML = taskHTML || `<span>You don't have any tasks here</span>`;
-        clearButton.classList[todos.length ? "add" : "remove"]("active");
-        taskBox.classList[todos.length ? "add" : "remove"]("overflow");
-    }
-    
-    taskInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter" && taskInput.value.trim()) {
-            let taskName = taskInput.value.trim();
-            let reminderTime = reminderInput.value;
-    
-            todos.push({ name: taskName, reminder: reminderTime, status: "pending" });
-            localStorage.setItem("todo-list", JSON.stringify(todos));
-            renderTasks(document.querySelector(".filters span.active").id);
-            taskInput.value = "";
-            reminderInput.value = "";
+        gsap.from(".task-input", {
+    opacity: 0,
+    y: -50,
+    duration: 1,
+    ease: "power3.out"
+});
+
+gsap.from(".controls", {
+    opacity: 0,
+    y: 50,
+    duration: 1,
+    ease: "power3.out",
+    delay: 0.2
+});
+
+gsap.from(".filters span, .clear-btn", {
+    opacity: 0,
+    y: 20,
+    duration: 0.5,
+    ease: "power2.out",
+    stagger: 0.1,
+    delay: 0.5
+});
+
+gsap.from(".task-box", {
+    opacity: 0,
+    y: 50,
+    duration: 1,
+    ease: "power3.out",
+    delay: 0.5
+});
+
+const taskInput = document.getElementById("taskName");
+const reminderInput = document.getElementById("reminderTime");
+const taskBox = document.querySelector(".task-box");
+const filters = document.querySelectorAll(".filters span");
+const clearButton = document.querySelector(".clear-btn");
+const notificationSound = document.getElementById("notificationSound");
+
+let todos = JSON.parse(localStorage.getItem("todo-list")) || [];
+
+function renderTasks(filter) {
+    let taskHTML = "";
+    todos.forEach((todo, id) => {
+        if (filter === todo.status || filter === "all") {
+            taskHTML += `<li class="task">
+                            <label>
+                                <input type="checkbox" onclick="updateStatus(this)" ${todo.status === "completed" ? "checked" : ""}>
+                                <p class="${todo.status === "completed" ? "checked" : ""}">${todo.name}</p>
+                            </label>
+                            <p class="reminder-time">${todo.reminder ? `Reminder: ${new Date(todo.reminder).toLocaleString()}` : ""}</p>
+                            <div class="settings">
+                                <i onclick="showMenu(this)" class="uil uil-ellipsis-h"></i>
+                                <ul class="task-menus">
+                                    <li class="list" onclick='editTask(${id}, "${todo.name}", "${todo.reminder}")'><i class="uil uil-pen"></i>Edit</li>
+                                    <li class="list" onclick='deleteTask(${id})'><i class="uil uil-trash"></i>Delete</li>
+                                </ul>
+                            </div>
+                         </li>`;
         }
     });
+    taskBox.innerHTML = taskHTML || `<span>You don't have any tasks here</span>`;
+    clearButton.classList[todos.length ? "add" : "remove"]("active");
+    taskBox.classList[todos.length ? "add" : "remove"]("overflow");
+}
+
+// Function to schedule reminder for each task
+function scheduleReminder(todo, index) {
+    const now = new Date();
+    const reminderTime = new Date(todo.reminder);
     
-    function updateStatus(selectedTask) {
-        let taskName = selectedTask.parentElement.lastElementChild;
-        todos.forEach(todo => {
-            if (todo.name === taskName.innerText) {
-                todo.status = selectedTask.checked ? "completed" : "pending";
-            }
-        });
+    if (reminderTime > now && todo.status !== "completed") {
+        const timeDifference = reminderTime.getTime() - now.getTime(); // Time difference in milliseconds
+        
+        setTimeout(() => {
+            alert(`Reminder: ${todo.name}`);
+            notificationSound.play();
+            todo.status = "completed";
+            localStorage.setItem("todo-list", JSON.stringify(todos));
+            renderTasks(document.querySelector(".filters span.active").id);
+        }, timeDifference); // Set the timeout to trigger exactly at the reminder time
+    }
+}
+
+// Schedule reminders for all tasks when page loads
+function scheduleAllReminders() {
+    todos.forEach((todo, index) => {
+        if (todo.reminder && todo.status !== "completed") {
+            scheduleReminder(todo, index);
+        }
+    });
+}
+
+// Event listener for adding new tasks
+taskInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter" && taskInput.value.trim()) {
+        let taskName = taskInput.value.trim();
+        let reminderTime = reminderInput.value;
+
+        todos.push({ name: taskName, reminder: reminderTime, status: "pending" });
         localStorage.setItem("todo-list", JSON.stringify(todos));
         renderTasks(document.querySelector(".filters span.active").id);
+        scheduleReminder(todos[todos.length - 1], todos.length - 1); // Schedule reminder for the new task
+        taskInput.value = "";
+        reminderInput.value = "";
     }
-    
-    function showMenu(selectedTask) {
-        let taskMenu = selectedTask.nextElementSibling;
-        taskMenu.classList.toggle("show");
-        document.addEventListener("click", e => {
-            if (e.target.tagName !== "I" || e.target !== selectedTask) {
-                taskMenu.classList.remove("show");
-            }
-        });
-    }
-    
-    function editTask(taskId, taskName, taskReminder) {
-        taskInput.value = taskName;
-        reminderInput.value = taskReminder;
-        deleteTask(taskId);
-    }
-    
-    function deleteTask(deleteId) {
-        todos.splice(deleteId, 1);
-        localStorage.setItem("todo-list", JSON.stringify(todos));
-        renderTasks(document.querySelector(".filters span.active").id);
-    }
-    
-    filters.forEach(btn => {
-        btn.addEventListener("click", () => {
-            document.querySelector("span.active").classList.remove("active");
-            btn.classList.add("active");
-            renderTasks(btn.id);
-        });
+});
+
+// Function to update task status
+function updateStatus(selectedTask) {
+    let taskName = selectedTask.parentElement.lastElementChild;
+    todos.forEach(todo => {
+        if (todo.name === taskName.innerText) {
+            todo.status = selectedTask.checked ? "completed" : "pending";
+        }
     });
-    
-    clearButton.addEventListener("click", () => {
-        todos = [];
-        localStorage.setItem("todo-list", JSON.stringify(todos));
-        renderTasks("all");
+    localStorage.setItem("todo-list", JSON.stringify(todos));
+    renderTasks(document.querySelector(".filters span.active").id);
+}
+
+// Function to show task menu
+function showMenu(selectedTask) {
+    let taskMenu = selectedTask.nextElementSibling;
+    taskMenu.classList.toggle("show");
+    document.addEventListener("click", e => {
+        if (e.target.tagName !== "I" || e.target !== selectedTask) {
+            taskMenu.classList.remove("show");
+        }
     });
-    
-    function checkReminders() {
-        const now = new Date();
-        todos.forEach(todo => {
-            if (todo.reminder && new Date(todo.reminder) <= now && todo.status !== "completed") {
-                alert(`Reminder: ${todo.name}`);
-                notificationSound.play();
-                todo.status = "completed";
-                localStorage.setItem("todo-list", JSON.stringify(todos));
-                renderTasks(document.querySelector(".filters span.active").id);
-            }
-        });
-    }
-    
-    setInterval(checkReminders, 60000); // Check reminders every minute
-    
+}
+
+// Function to edit a task
+function editTask(taskId, taskName, taskReminder) {
+    taskInput.value = taskName;
+    reminderInput.value = taskReminder;
+    deleteTask(taskId);
+}
+
+// Function to delete a task
+function deleteTask(deleteId) {
+    todos.splice(deleteId, 1);
+    localStorage.setItem("todo-list", JSON.stringify(todos));
+    renderTasks(document.querySelector(".filters span.active").id);
+}
+
+// Event listener for filter buttons
+filters.forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelector("span.active").classList.remove("active");
+        btn.classList.add("active");
+        renderTasks(btn.id);
+    });
+});
+
+// Event listener for clearing all tasks
+clearButton.addEventListener("click", () => {
+    todos = [];
+    localStorage.setItem("todo-list", JSON.stringify(todos));
     renderTasks("all");
+});
+
+// Initially render tasks and schedule reminders
+renderTasks("all");
+scheduleAllReminders();
     </script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
 
