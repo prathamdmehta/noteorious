@@ -4,62 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/style.css">
+    <title>About - Note-Orious</title>
 </head>
 <body>
-    <header><h4 class="page-title">About</h4></header>
-        <main>
-          <article class="content">
-                    <p class="content__text">Write your thoughts down as they come to you. Notes is a simple to use free note taking app made with Node.Js, EJS & MongoDB.
-              </p>
-            <div class="containers">
-                <div class="section" id="features">
-                    <h2>Features</h2>
-                    <ul>
-                        <li>Attractive Front Page</li>
-                        <li>Admin Login and Register</li>
-                        <li>Search</li>
-                        <li>Create Notes</li>
-                        <li>Update Notes</li>
-                        <li>Delete Notes</li>
-                        <li>View Notes</li>
-                    </ul>
-                </div>
-                <div class="section" id="tech-stack">
-                    <h2>Tech Stack</h2>
-                    <ul>
-                        <li>HTML5</li>
-                        <li>CSS3</li>
-                        <li>JavaScript</li>
-                        <li>NodeJS</li>
-                        <li>Express</li>
-                        <li>EJS</li>
-                        <li>MongoDB</li>
-                        <li>Bootstrap</li>
-                    </ul>
-                </div>
-                <div class="section" id="dependencies">
-                    <h2>Dependencies Used</h2>
-                    <ul>
-                        <li>bcrypt</li>
-                        <li>Cookieparser (1.4.6)</li>
-                        <li>Jsonwebtoken (9.0.0) </li>
-                        <li>Connectmongo (5.5.0)</li>
-                        <li>Dotenv (16.0.3)</li>
-                        <li>EJS (3.1.9)</li>
-                        <li>Express (4.18.2)</li>
-                        <li>Express EJS Layouts (2.5.1)</li>
-                        <li>Express Session (1.17.3)</li>
-                        <li>Method Override (3.0.0)</li>
-                        <li>Mongoose (6.8.1)</li>
-                        <li>Nodemon (2.0.20)</li>
-                    </ul>
-                </div>
-            </div>
-          </article>
-        </main>
-      </div> 
-      <script>
-                gsap.from(".page-title", {
+    <header><h4 class="page-title">About Note-Orious</h4></header>
+    <main>
+        <article class="content">
+            <section id="introduction">
+                <h3 style="color: blueviolet;">Introduction</h3>
+                <p class="content__text" style="text-align: left; font-size: 18px;">Welcome <span style="color: darkcyan;"><strong><%= username%></strong></span> to Note-Orious, a simple yet powerful tool designed to help you capture and organize your thoughts, ideas, and tasks in one place. Whether you're jotting down quick notes, managing a to-do list, or brainstorming big ideas, our app is here to make your life more organized and productive.</p>
+            </section>
+            <section id="features">
+                <h3 style="color: brown;">Key Features</h3>
+                <ul style="font-size: 18px;">
+                    <li>Create, edit, and delete notes easily.</li>
+                    <li>Rich text editing with voice-to-text support.</li>
+                    <li>Organize notes in a customizable grid layout.</li>
+                    <li>Pin important notes to the top for easy access.</li>
+                    <li>Switch between light and dark mode.</li>
+                    <li>Draw diagrams or make annotations with a built-in drawing tool.</li>
+                    <li>Create to-do lists with reminders and notifications.</li>
+                </ul>
+            </section>
+            <section id="how-it-works">
+                <h3 style="color: red;">How It Works?</h3>
+                <p class="content__text" style="text-align: left; font-size: 18px;">Simply sign up, create your first note, and explore the various tools we offer, including the ability to add photos, draw, or even convert your written code into images. Stay on top of your tasks by using the built-in to-do list and reminder feature.</p>
+            </section>
+            <section id="mission">
+                <h3 style="color: green;">Mission Statement</h3>
+                <p class="content__text" style="text-align: left; font-size: 18px;">Our mission is to help users stay organized and focused, providing them with a space to nurture creativity, productivity, and clarity in both their personal and professional lives.</p>
+            </section>
+            <section id="who-it-is-for">
+                <h3 style="color: darkblue;">Who It’s For</h3>
+                <p class="content__text" style="text-align: left; font-size: 18px;">Whether you're a student, professional, or just someone looking to organize their thoughts, Note-Orious is designed to be user-friendly and adaptable to suit your needs.</p>
+            </section>
+            <section id="technology">
+                <h3 style="color: darkslategrey;">Technology Behind the App</h3>
+                <p class="content__text" style="text-align: left; font-size: 18px;">Built using cutting-edge technologies like Node.js, Express, and MongoDB, Note-Orious offers a fast and secure platform for managing your notes efficiently.</p>
+            </section>
+            <section id="team">
+                <h3 style="color: darkslateblue;">Developer/Team Introduction</h3>
+                <p class="content__text" style="text-align: left; font-size: 18px;">Note-Orious is crafted by passionate developers with a love for productivity tools and an aim to simplify the process of note-taking and idea management.</p>
+            </section>
+            <section id="contact">
+                <h3>Contact Information</h3>
+                <p class="content__text" style="text-align: left; font-size: 18px;">If you have any questions or feedback, feel free to reach out to us at <a href="mailto:mehta2935@gmail.com" style="color: blue;">mehta2935@gmail.com</a> or follow us on our social media channels.</p>
+            </section>
+            <section id="call-to-action">
+                <h3 style="color: darkviolet;">Call to Action</h3>
+                <p class="content__text" style="text-align: left; font-size: 18px;">Start organizing your thoughts today. Sign up and take the first step towards clarity and productivity!</p>
+            </section>
+        </article>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+        gsap.from(".page-title", {
             opacity: 0,
             y: -50,
             duration: 1,
@@ -74,7 +73,7 @@
             delay: 0.5
         });
         
-        gsap.from(".section", {
+        gsap.from("section", {
             opacity: 0,
             y: 50,
             duration: 1,
@@ -82,7 +81,6 @@
             stagger: 0.3,
             delay: 1
         });
-    </script>   
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    </script>
 </body>
 </html>
