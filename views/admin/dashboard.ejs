@@ -571,10 +571,11 @@
               <a href="/edit-post/<%= post._id %>" class="edit-btn"
                 ><i class="uil uil-pen"></i>Edit</a
               >
-              <form
+               <form
                 action="/delete-post/<%= post._id %>?_method=DELETE"
                 method="POST"
                 class="delete-form"
+                onsubmit="return confirmDelete()"
               >
                 <i class="uil uil-trash"></i>
                 <input type="submit" value="Delete" class="delete-btn" />
@@ -607,6 +608,9 @@
     </div>
 
     <script>
+function confirmDelete() {
+        return confirm("Are you sure you want to delete?");
+      }
       document.addEventListener("DOMContentLoaded", () => {
         let previouslyPinnedPost = null; // Variable to store previously pinned post
 
