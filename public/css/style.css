@@ -665,6 +665,10 @@ body.dark-mode .feature-box h3{
   .articles__heading {
     font-weight: 400;
   }
+
+  .hero h2 {
+    margin-top: 1.8rem;
+  }
 }
 
 @media (max-width: 768px) {
