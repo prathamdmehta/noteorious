@@ -162,36 +162,46 @@
     }
   </style>
   <body>
-    <!-- Notification Modal -->
-<div id="notification" class="notification hidden">
-  <p>You have been successfully registered!</p>
-  <button onclick="closeNotification()">Close</button>
-</div>
     <div class="containerss">
       <div>
         <h3>Sign In</h3>
         <form action="/admin" method="POST">
           <label for="username"><b>Username</b></label>
           <input type="text" placeholder="Enter Username" name="username" />
+    
           <label for="password"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="password" />
+          <input type="password" placeholder="Enter Password" name="password" id="password-signin" />
+          
+          <!-- Checkbox to show/hide password -->
+          <input type="checkbox" id="togglePasswordSignin" onclick="togglePassword('password-signin')"> Show Password
+          
           <input type="submit" value="Login" class="btn" />
         </form>
       </div>
-
+    
       <div>
         <h3>Register</h3>
         <form action="/register" method="POST">
           <label for="username"><b>Username</b></label>
           <input type="text" placeholder="Enter Username" name="username" />
+    
           <label for="password"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="password" />
+          <input type="password" placeholder="Enter Password" name="password" id="password-register" />
+          
+          <!-- Checkbox to show/hide password -->
+          <input type="checkbox" id="togglePasswordRegister" onclick="togglePassword('password-register')"> Show Password
+          
           <input type="submit" value="Register" class="btn" />
         </form>
       </div>
     </div>
 
     <script>
+      function togglePassword(id) {
+    const passwordField = document.getElementById(id);
+    const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+    passwordField.setAttribute("type", type);
+  }
       // Function to toggle dark mode
       function toggleDarkMode() {
         const body = document.body;
