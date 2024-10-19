@@ -471,7 +471,7 @@
       }
 
       .fi-rr-square-plus:before {
-        content: "\fcc1"; 
+        content: "\fcc1";
         display: inline-block;
         margin-top: 0rem;
       }
@@ -513,6 +513,11 @@
         text-decoration: none;
         transition: 0.5s;
       }
+      .button-draw i {
+        margin-right: 5px;
+    margin-top: 4px;
+    margin-left: 5px;
+      }
 
       .fi-rr-pencil:before {
         content: "\fa29";
@@ -534,8 +539,14 @@
         transition: 0.5s;
       }
 
+      .buttons i {
+        margin-right: 5px;
+    margin-top: 4px;
+    margin-left: 5px;
+      }
+
       .fi-rr-square-plus:before {
-        content: "\fcc1"; 
+        content: "\fcc1";
         display: inline-block;
         margin-top: 0rem;
       }
@@ -571,7 +582,7 @@
               <a href="/edit-post/<%= post._id %>" class="edit-btn"
                 ><i class="uil uil-pen"></i>Edit</a
               >
-               <form
+              <form
                 action="/delete-post/<%= post._id %>?_method=DELETE"
                 method="POST"
                 class="delete-form"
@@ -580,6 +591,7 @@
                 <i class="uil uil-trash"></i>
                 <input type="submit" value="Delete" class="delete-btn" />
               </form>
+              
               <a
                 href="#"
                 class="pin-btn"
@@ -608,9 +620,10 @@
     </div>
 
     <script>
-function confirmDelete() {
+      function confirmDelete() {
         return confirm("Delete this post?😏 It’ll be gone faster than your last snack! Proceed?");
       }
+
       document.addEventListener("DOMContentLoaded", () => {
         let previouslyPinnedPost = null; // Variable to store previously pinned post
 
