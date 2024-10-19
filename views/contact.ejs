@@ -206,6 +206,107 @@
     .contact-form {
       grid-area: contact-form;
     }
+
+    /* Default styles for larger screens */
+@media screen and (min-width: 768px) {
+  .contact-form-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 0.5fr 0.5fr 2fr;
+    grid-template-areas: 
+      "contact-us header header header"
+      "contact-us address phone email"
+      "contact-us contact-form contact-form contact-form";
+  }
+}
+
+/* Media query for tablets (768px and below) */
+@media screen and (max-width: 768px) {
+  .contact-form-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      "header"
+      "contact-us"
+      "address"
+      "phone"
+      "email"
+      "contact-form";
+  }
+
+  /* .contact-us {
+    display: none;
+  } */
+
+  .header h1, .header h2 {
+    font-size: 1.2rem;
+  }
+
+  form button {
+    width: 80%;
+    left: 10%;
+  }
+  #personal-detail{
+    display: flex;
+    width: 50px;
+    display: none;
+  }
+  .form{
+    width: 50px;
+  }
+
+}
+
+/* Media query for mobile screens (480px and below) */
+@media screen and (max-width: 480px) {
+  .contact-form-container {
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      "header"
+      "contact-us"
+      "address"
+      "phone"
+      "email"
+      "contact-form";
+  }
+
+  .contact-header {
+    transform: none;
+    top: 10px;
+    left: 10px;
+  }
+
+  .contact-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .header h1, .header h2 {
+    font-size: 1rem;
+    margin-top: 0;
+  }
+
+  form {
+    padding: 10px;
+    width: 280px;
+    margin-top: -5rem;
+  }
+
+  form input, form textarea {
+    font-size: 0.9rem;
+  }
+
+  form button {
+    width: 100%;
+    left: 0;
+    border-radius: 10px;
+  }
+
+  .social-bar {
+    left: 8rem;
+    top: 6px;
+  }
+
+}
+
   </style>
   <body>
     <div class="contact-form-container">
@@ -231,6 +332,7 @@
         <h1>Let's Connect!</h1>
         <h2>Contact me, <span style="color: #6a5acd; font-weight: 400;"><%= username %></span> for query!</h2>
       </div>
+      <div id="personal-detail">
       <div class="address">
         <i class="fas fa-map-marker-alt"></i>
         <h3>Mumbai</h3>
@@ -244,6 +346,7 @@
         <i class="fas fa-envelope"></i>
         <h3>mehta2935@gmail.com</h3>
       </div>
+    </div>
       <div class="contact-form">
         <form action="https://api.web3forms.com/submit" method="POST">
           <!-- Replace with your Access Key -->
