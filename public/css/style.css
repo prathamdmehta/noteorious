@@ -669,6 +669,10 @@ body.dark-mode .feature-box h3{
   .hero h2 {
     margin-top: 2.8rem;
   }
+
+  #loader h3{
+    font-size: larger;
+  }
 }
 
 @media (max-width: 768px) {
