@@ -1,4 +1,7 @@
-# NodeJs, Express, EJS & MongoDB Blog - CRUD
+# NoteOrious made with NodeJs, Express, EJS & MongoDB
+
+## Home Page Preview:
+<img src="https://github.com/prathamdmehta/noteorious/blob/main/public/img/home-page.png">
 
 ## You need:
 - NodeJs
